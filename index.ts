@@ -9,26 +9,40 @@ interface VectorLike {
     z?: number
 }
 
+interface QuaternionLike {
+    a: number
+    i: number
+    j: number
+    k: number
+}
+
 class Vector implements VectorLike {
     x: number
     y: number
     z: number
 
+    constructor()
     constructor(v: VectorLike)
     constructor(x: number, y: number)
     constructor(x: number, y: number, z: number)
-    constructor(v: VectorLike | number, y?: number, z?: number) {
-        if (typeof v === "number") {
-            if (y === undefined || z === undefined) {
-                throw new Error("Missing y or z value for Vector constructor.");
-            }
-            this.x = v;
-            this.y = y;
-            this.z = z;
+    constructor(v?: VectorLike | number, y?: number, z?: number) {
+        if (v === undefined) {
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
         } else {
-            this.x = v.x;
-            this.y = v.y;
-            this.z = v.z || 0;
+            if (typeof v === "number") {
+                if (y === undefined) {
+                    throw new Error("Missing y value for Vector constructor.");
+                }
+                this.x = v;
+                this.y = y;
+                this.z = z || 0;
+            } else {
+                this.x = v.x;
+                this.y = v.y;
+                this.z = v.z || 0;
+            }
         }
     }
 
@@ -52,11 +66,14 @@ class Vector implements VectorLike {
         return this.add(v.neg());
     }
 
-    mul(a: number) {
+    mul(a: number | Vector) {
+        if (typeof a === "number") {
+            a = new Vector(a, a, a);
+        }
         return new Vector({
-            x: this.x * a,
-            y: this.y * a,
-            z: this.z * a
+            x: this.x * a.x,
+            y: this.y * a.y,
+            z: this.z * a.z
         });
     }
 
@@ -148,8 +165,37 @@ class Vector implements VectorLike {
     }
 }
 
-class Quaternion {
-    constructor(public a = 1, public i = 0, public j = 0, public k = 0) { }
+class Quaternion implements QuaternionLike {
+
+    public a: number
+    public i: number
+    public j: number
+    public k: number
+
+    constructor()
+    constructor(q: QuaternionLike)
+    constructor(a: number, i: number, j: number, k: number)
+    constructor(qa?: QuaternionLike | number, i?: number, j?: number, k?: number) {
+        if (qa === undefined) {
+            this.a = 1;
+            this.i = 0;
+            this.j = 0;
+            this.k = 0;
+        } else {
+            if (typeof qa === "number") {
+                if (i === undefined || j === undefined || k === undefined) throw new Error("Missing i, j, or k values in Quaternion constructor...");
+                this.a = qa;
+                this.i = i;
+                this.j = j;
+                this.k = k;
+            } else {
+                this.a = qa.a;
+                this.i = qa.i;
+                this.j = qa.j;
+                this.k = qa.k;
+            }
+        }
+    }
 
     add(q: Quaternion) {
         return new Quaternion(this.a + q.a, this.i + q.i, this.j + q.j, this.k + q.k);

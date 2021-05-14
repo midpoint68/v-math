@@ -5,18 +5,25 @@
  */
 class Vector {
     constructor(v, y, z) {
-        if (typeof v === "number") {
-            if (y === undefined || z === undefined) {
-                throw new Error("Missing y or z value for Vector constructor.");
-            }
-            this.x = v;
-            this.y = y;
-            this.z = z;
+        if (v === undefined) {
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
         }
         else {
-            this.x = v.x;
-            this.y = v.y;
-            this.z = v.z || 0;
+            if (typeof v === "number") {
+                if (y === undefined) {
+                    throw new Error("Missing y value for Vector constructor.");
+                }
+                this.x = v;
+                this.y = y;
+                this.z = z || 0;
+            }
+            else {
+                this.x = v.x;
+                this.y = v.y;
+                this.z = v.z || 0;
+            }
         }
     }
     add(v) {
@@ -37,10 +44,13 @@ class Vector {
         return this.add(v.neg());
     }
     mul(a) {
+        if (typeof a === "number") {
+            a = new Vector(a, a, a);
+        }
         return new Vector({
-            x: this.x * a,
-            y: this.y * a,
-            z: this.z * a
+            x: this.x * a.x,
+            y: this.y * a.y,
+            z: this.z * a.z
         });
     }
     mag() {
@@ -114,11 +124,29 @@ class Vector {
     }
 }
 class Quaternion {
-    constructor(a = 1, i = 0, j = 0, k = 0) {
-        this.a = a;
-        this.i = i;
-        this.j = j;
-        this.k = k;
+    constructor(qa, i, j, k) {
+        if (qa === undefined) {
+            this.a = 1;
+            this.i = 0;
+            this.j = 0;
+            this.k = 0;
+        }
+        else {
+            if (typeof qa === "number") {
+                if (i === undefined || j === undefined || k === undefined)
+                    throw new Error("Missing i, j, or k values in Quaternion constructor...");
+                this.a = qa;
+                this.i = i;
+                this.j = j;
+                this.k = k;
+            }
+            else {
+                this.a = qa.a;
+                this.i = qa.i;
+                this.j = qa.j;
+                this.k = qa.k;
+            }
+        }
     }
     add(q) {
         return new Quaternion(this.a + q.a, this.i + q.i, this.j + q.j, this.k + q.k);
