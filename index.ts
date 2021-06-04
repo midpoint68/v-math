@@ -163,6 +163,12 @@ class Vector implements VectorLike {
         const mag = proj.mag();
         return new Vector(Math.cos(theta2) * mag, Math.cos(theta) * mag, 0);
     }
+    distance_from_line(a: Vector, b: Vector) {
+        const dist_a = this.sub(a).mag();
+        const dist_b = this.sub(b).mag();
+        const dist = a.sub(b).mag();
+        return Math.sqrt(Math.max(0, dist_a * dist_a - Math.pow((dist_b * dist_b - dist_a * dist_a - dist * dist) / (-2 * dist), 2)));
+    }
 }
 
 class Quaternion implements QuaternionLike {
