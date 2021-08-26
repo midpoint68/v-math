@@ -1,0 +1,26 @@
+{
+  "name": "@midpoint68/v-math",
+  "version": "1.0.0",
+  "description": "Vector and Quaternion Math for JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/midpoint68/v-math.git"
+  },
+  "keywords": [
+    "vector",
+    "quaternion",
+    "javascript",
+    "math",
+    "typescript"
+  ],
+  "author": "Trevor Richard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/midpoint68/v-math/issues"
+  },
+  "homepage": "https://github.com/midpoint68/v-math#readme"
+}
