@@ -1,6 +1,6 @@
 {
   "name": "@midpoint68/v-math",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vector and Quaternion Math for JavaScript.",
   "main": "index.js",
   "scripts": {
